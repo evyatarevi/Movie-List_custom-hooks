@@ -1,6 +1,7 @@
-// src/components/MovieList.js
 import { useState, useEffect } from "react";
 import "./MoiveList.css"; // Ensure the CSS file name is correctly referenced
+import Filters from "./Filters";
+import MovieItems from "./MovieItems";
 
 const MovieList = () => {
   const [movies, setMovies] = useState([]);
@@ -39,11 +40,10 @@ const MovieList = () => {
   }, [filter, sort]);
 
   const toggleFavorite = (movieId) => {
-    const isFavorite = favorites.includes(movieId);
-    setFavorites(
-      isFavorite
-        ? favorites.filter((id) => id !== movieId)
-        : [...favorites, movieId]
+    setFavorites((prevFavorites) =>
+      prevFavorites.includes(movieId)
+        ? prevFavorites.filter((id) => id !== movieId)
+        : [...prevFavorites, movieId]
     );
   };
 
@@ -53,32 +53,17 @@ const MovieList = () => {
   return (
     <div className="movie-list-container">
       <h1 className="movie-list-title">Movie List</h1>
-      <div>
-        <select value={filter} onChange={(e) => setFilter(e.target.value)}>
-          <option value="All">All Genres</option>
-          <option value="28">Action</option>
-          <option value="35">Comedy</option>
-          {/* Add other genres as needed */}
-        </select>
-        <select value={sort} onChange={(e) => setSort(e.target.value)}>
-          <option value="popularity.desc">Most Popular</option>
-          <option value="release_date.desc">Newest</option>
-        </select>
-      </div>
-      <ul className="movie-list">
-        {movies.map((movie) => (
-          <li key={movie.id} className="movie-item">
-            <img
-              src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
-              alt={movie.title}
-            />
-            <span>{movie.title}</span>
-            <button onClick={() => toggleFavorite(movie.id)}>
-              {favorites.includes(movie.id) ? "Unfavorite" : "Favorite"}
-            </button>
-          </li>
-        ))}
-      </ul>
+      <Filters
+        filter={filter}
+        setFilter={setFilter}
+        sort={sort}
+        setSort={setSort}
+      />
+      <MovieItems
+        movies={movies}
+        favorites={favorites}
+        toggleFavorite={toggleFavorite}
+      />
     </div>
   );
 };
