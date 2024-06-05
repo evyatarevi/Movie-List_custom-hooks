@@ -36,7 +36,7 @@ const useFetchMovie = () => {
         fetchMovies();
     }, [filter, sort]);
 
-    return [error, loading, movies, sort, filter, setSort, setFilter];
+    return { error, loading, movies, sort, filter, setSort, setFilter };
 }
 
 export default useFetchMovie;

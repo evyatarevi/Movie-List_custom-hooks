@@ -5,7 +5,7 @@ import useFetchMovie from "../hooks/useFetchMovie";
 import useFavorites from "../hooks/useFavorites";
 
 const MovieList = () => {
-  const [error, loading, movies, sort, filter, setSort, setFilter] =
+  const { error, loading, movies, sort, filter, setSort, setFilter } =
     useFetchMovie();
 
   const [favorites, toggleFavorite] = useFavorites();
